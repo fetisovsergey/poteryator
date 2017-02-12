@@ -4,7 +4,7 @@ $(document).ready(function(){
   ready = function()
   {
   L.mapbox.accessToken = 'pk.eyJ1IjoiZmV0aXNvdnNlcmdleSIsImEiOiI0X09HSjZFIn0.aU0mwcW1UZIj5ZWVBFkRdQ';
-  var map = L.mapbox.map('map_new', 'mapbox.streets').setView(<%= @coordinates %>, 6);
+  var map = L.mapbox.map('map_new', 'mapbox.streets').setView(<%= @coordinates %>, 11);
   map.addControl(L.mapbox.geocoderControl('mapbox.places',{autocomplete: true}));
   
  //map.touchZoom.disable();
