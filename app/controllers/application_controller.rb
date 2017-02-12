@@ -9,11 +9,11 @@ class ApplicationController < ActionController::Base
   
   private 
   def get_location
-	if request.location.country_code == 'RD' 
+	@coordinates = Geocoder.search(request.remote_ip).first
+	if @coordinates
+		@coordinates = @coordinates.coordinates
+        else
 		@coordinates = [50.064213,37.59521]
-	else
-		@coordinates = request.location.coordinates
-	end
-	#@coordinates = Geocoder.search(request.remote_ip).first.coordinates
+        end
   end
 end

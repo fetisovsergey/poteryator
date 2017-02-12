@@ -69,7 +69,7 @@ $(document).ready(function(){
 
   });
 </script>
-<% provide(:title, @map.id) %>
+<% provide(:title, 'map' + @map.id.to_s) %>
 <!DOCTYPE html>
 <body>
   <div id="map_show<%= @map.id %>" class="maps"></div>
