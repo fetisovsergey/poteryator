@@ -1,0 +1,67 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "bootstrap";
+
+.navbar
+{
+top:0;left:0;
+width:100%;
+min-height:60px;
+z-index:1;
+position:fixed;
+}
+
+
+#add_label
+{
+        position:absolute;
+        background:#fff;
+        min-width:300x;
+        width:25%;
+        z-index:1;
+        top:135px;
+        right:10px;
+        padding:10px;
+        font-weight:300;
+        font-size:1em;
+        color:#000;
+        text-align:center;
+        .text_area
+        {
+        	min-height:100px;
+        	width:100%;
+        }
+}
+
+.thing_type
+{
+        display: none
+}
+
+#coordinates
+{
+        position:fixed;
+        z-index:2;
+        bottom:0;margin:0;
+        width:100%;
+        text-align:center;
+        padding:5px;
+        color:#000000;
+        font-size:15px;
+        font-family: 'archive';
+        line-height:18px;
+}
+
+
+
+.maps
+{
+        margin:0;
+	left:0;
+	top:60px;
+        position:fixed;
+        width:100%;
+	height:100vh;
+}
+

@@ -1,0 +1,235 @@
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  margin-top:100px;
+  #margin: 33px;
+}
+
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 33px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+a {
+  color: #000;
+
+  &:visited {
+    color: #666;
+  }
+
+  &:hover {
+    color: #fff;
+    background-color: #000;
+  }
+}
+
+th {
+  padding-bottom: 5px;
+}
+
+td {
+  padding-bottom: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px;
+  }
+}
+
+#notice {
+  color: green;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table;
+}
+
+#error_explanation {
+  width:364px;
+  border: 2px solid red;
+  padding: 7px;
+  font-family: 'avante';
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px;
+    font-size: 1.2em;
+    margin: -7px;
+    margin-bottom: 0;
+    background-color: #c00;
+    color: #fff;
+  }
+  ul
+  {
+    padding:5px;
+    margin:10px
+  }
+  ul li {
+    font-size: 1.2em;
+    font-family: 'avante';
+    list-style: square;
+  }
+}
+
+label {
+  display: block;
+}
+
+
+h1,h2,h3,h4,h5,tbody,tr,td
+{
+    color: #000;
+    font-family: 'avante';
+}
+
+h3
+{
+  font-size:1.4em
+}
+
+h2
+{
+  font-size:1.8em
+}
+
+h4
+{
+  font-size:1.3em
+}
+
+h5,td
+{
+  font-size:1.2em
+}
+
+td
+{
+  .btn
+  {
+    font-size:1em !important;
+  }
+}
+
+.btn
+{
+  margin:5px;
+  font-size:1.4em !important;
+  font-family:  'avante';
+  padding:10px !important;
+  color: #ffffff !important;
+}
+
+.btn-link
+{
+	color: #cf0000 !important;
+}
+.logo
+{
+    width:30px;
+}
+
+
+
+.navbar
+{
+top:0;left:0;
+width:100%;
+min-height:30px;
+z-index:1;
+position:fixed;
+}
+
+
+.navbar-nav, .collapse, .navbar
+{
+  margin: 0;padding:0
+}
+
+.navbar-toggler
+{
+  margin-top:10px
+}
+
+
+.ui-coordinates
+{
+        position:fixed;
+        z-index:2;
+        background: #fff;
+        bottom:0;
+        left:0;
+        width:100%;
+        display:none;
+        text-align:center;
+        height:auto;
+        border-top:1px solid #f0f0f0;
+        padding:7px;
+        color:#000000;
+        font-size:12px;
+        font-family: 'avante';
+}
+
+
+#add_label
+{
+        position:absolute;
+        background:#fff;
+        width:350px;
+        border-radius:10px;
+        border-color: #f0f0f0;
+        z-index:1;
+        top:0px;
+        right:20px;
+        font-family:  'avante';
+        padding:10px;
+        color:#000;
+        text-align:center;
+}
+
+.text_area
+{
+   min-height:100px;
+   width:350px
+}
+
+.container
+{
+  width:90% !important;
+  margin-bottom:50px
+}
+
+
+.form-control
+{
+	max-height:150px !important;
+}
+
+.panel-body
+{
+padding-left:0 !important
+}
+
+.comment-post,.comment-date
+{
+	margin-left:15px;
+}

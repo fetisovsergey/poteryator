@@ -1,0 +1,76 @@
+<script>
+$(document).ready(function(){
+  L.mapbox.accessToken = 'pk.eyJ1IjoiZmV0aXNvdnNlcmdleSIsImEiOiI0X09HSjZFIn0.aU0mwcW1UZIj5ZWVBFkRdQ';
+  var map = L.mapbox.map('map_show<%= @map.id %>', 'mapbox.streets').setView([<%= @map.latitude %>,<%= @map.longtitude %>],<%= @map.zoom %>);
+  map.addControl(L.mapbox.geocoderControl('mapbox.places',{autocomplete: true}));
+  var featureGroup = L.featureGroup().addTo(map);
+  // Define circle options
+  // http://leafletjs.com/reference.html#circle
+  var circle_options = {
+      color: '#cf0000',      // Stroke color
+      opacity: 1,         // Stroke opacity
+      weight: 1,         // Stroke weight
+      fillOpacity: 0.1    // Fill opacity
+  };
+  var circle_one = L.circle([<%= @map.latitude %>,<%= @map.longtitude %>], <%= @map.radius %>, circle_options).addTo(featureGroup);
+
+
+  <% if @things %>
+  var myLayer = L.mapbox.featureLayer().addTo(map);
+  var geoJson = [
+                  <% @things.each do |thing| %>
+                  {
+                    type: 'Feature',
+                    "geometry":
+                    {
+                      "type": "Point",
+                      "coordinates": [<%= thing.longtitude %>,<%= thing.latitude %>]},
+                    "properties":
+                    {
+                        "latitude": "<%= thing.latitude.round(12) %>",
+                        "longtitude": "<%= thing.longtitude.round(12) %>",
+                        "url": "<%= thing_path(thing.id) %>",
+                        "name": "<%= User.find(thing.user_id).name %>",
+                        "address": "<%= thing.address %>",
+                        <% if thing.root_type == 1 %>
+                        "category": "Одежда",
+                        'marker-symbol':'shop',
+                        <% elsif thing.root_type == 2 %>
+                        "category": "Еда",
+                        'marker-symbol':'fast-food',
+                        <% elsif thing.root_type == 3 %>
+                        "category": "Дети",
+                        'marker-symbol':'pitch',
+                        <% end %>
+                        <% if thing.missing %> 
+                         "marker-color": "#cc0033",
+                         "status": "потерян"
+                        <% else %>
+                        "status": "найден"
+                        <% end %>
+                    }
+                  },
+                <% end %>
+                ];
+    myLayer.on('layeradd', function(e) {
+      var marker = e.layer, feature = marker.feature;
+      var popupContent = '<h5>Пользователь: ' + feature.properties.name + '</h5>' + '<h5>Категория: ' + feature.properties.category + '<h5>Статус: ' + feature.properties.status + '<h4>Адрес: ' + feature.properties.address + '</h4>';
+      marker.bindPopup(popupContent,{closeButton: false});
+      marker.on('mouseover', function (e) {
+        this.openPopup();
+      });
+      marker.on('mouseout', function (e) {
+        this.closePopup();
+      });
+      marker.on('click', function(e) {window.open(feature.properties.url)});
+    });
+    myLayer.setGeoJSON(geoJson);
+<% end %>
+
+  });
+</script>
+<% provide(:title, @map.id) %>
+<!DOCTYPE html>
+<body>
+  <div id="map_show<%= @map.id %>" class="maps"></div>
+</body>

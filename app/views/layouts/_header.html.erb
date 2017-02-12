@@ -1,0 +1,20 @@
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <%= link_to image_tag("search.png",class:"logo"), root_path, class:"btn btn-link" %>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <% if signed_in? %>
+		<li class="nav-item active"><%= link_to("Добавить объект", new_thing_path(current_user),class:"btn btn-primary") %></li>
+		<li class="nav-item"><%= link_to("Ваши объекты", things_path,class:"btn btn-danger") %></li>
+    <li class="nav-item"><%= link_to("Ваши карты", maps_path,class:"btn btn-info") %></li>
+		<li class="nav-item"><%= link_to(current_user.name, current_user, class:"btn btn-success") %></li>
+		<li class="nav-item"><%= link_to('Выйти', destroy_user_session_path, :method => :delete,class:"btn btn-warning") %></li> 
+	<% else %>
+		<li class="nav-item active"><%= link_to("ВОЙТИ", new_user_session_path,class:"btn btn-danger") %></li>
+		<li class="nav-item"><%= link_to("Регистрация", new_user_registration_path,class:"btn btn-primary") %></li>
+       <% end %>
+    </ul>
+  </div>
+</nav>

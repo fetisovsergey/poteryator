@@ -1,0 +1,121 @@
+<script>
+$(document).on('turbolinks:load',function(){
+  L.mapbox.accessToken = 'pk.eyJ1IjoiZmV0aXNvdnNlcmdleSIsImEiOiI0X09HSjZFIn0.aU0mwcW1UZIj5ZWVBFkRdQ';
+  var map = L.mapbox.map('map_new', 'mapbox.streets').setView(<%= @coordinates %>, 6);
+  map.addControl(L.mapbox.geocoderControl('mapbox.places',{autocomplete: true}));
+
+  <% (1..3).each do |number| %>
+  var myLayer<%= number %> = L.mapbox.featureLayer().addTo(map);
+  var geoJson<%= number %> = [
+                  <% @things.where(root_type: number).each do |thing| %>
+                  {
+                    type: 'Feature',
+                    "geometry":
+                    {
+                      "type": "Point",
+                      "coordinates": [<%= thing.longtitude %>,<%= thing.latitude %>]},
+                    "properties":
+                    {
+                        "latitude": "<%= thing.latitude.round(12) %>",
+                        "longtitude": "<%= thing.longtitude.round(12) %>",
+                        "url": "<%= thing_path(thing.id) %>",
+                        "name": "<%= User.find(thing.user_id).name %>",
+                        "address": "<%= thing.address %>",
+                        <% if number == 1 %>
+                        "category": "Одежда",
+                        'marker-symbol':'shop',
+                        <% elsif number == 2 %>
+                        "category": "Еда",
+                        'marker-symbol':'fast-food',
+                        <% elsif number == 3 %>
+                        "category": "Дети",
+                        'marker-symbol':'pitch',
+                        <% end %>
+                        <% if thing.missing %> 
+                         "marker-color": "#cc0033",
+                         "status": "потерян"
+                        <% else %>
+                        "status": "найден"
+                        <% end %>
+                    }
+                  },
+                <% end %>
+                ];
+    myLayer<%= number %>.on('layeradd', function(e) {
+      var marker = e.layer, feature = marker.feature;
+      var popupContent = '<h5>Пользователь: ' + feature.properties.name + '</h5>' + '<h5>Категория: ' + feature.properties.category + '<h5>Статус: ' + feature.properties.status + '<h4>Адрес: ' + feature.properties.address + '</h4>';
+      marker.bindPopup(popupContent,{closeButton: false});
+      marker.on('mouseover', function (e) {
+        this.openPopup();
+      });
+      marker.on('mouseout', function (e) {
+        this.closePopup();
+      });
+      marker.on('click', function(e) {window.open(feature.properties.url)});
+    });
+    myLayer<%= number %>.setGeoJSON(geoJson<%= number %>);
+    <% end %>
+
+  var LayerMaps = {
+    "Еда": myLayer1,
+    "Дети": myLayer2,
+    "Одежда": myLayer3
+  };
+  var StyleMaps = {
+    'Схема': L.mapbox.tileLayer('mapbox.streets'),
+    'Спутник': L.mapbox.tileLayer('mapbox.satellite')
+  }
+  L.control.layers(StyleMaps,LayerMaps).addTo(map);
+
+
+<% if signed_in? %>
+//DRAW CIRCLE
+  var featureGroup = L.featureGroup().addTo(map);
+
+  var drawControl = new L.Control.Draw({
+    draw: {
+            polyline: false,
+            marker: false,
+            rectangle: false,
+            polygon: false
+        },
+    edit: {
+      featureGroup: featureGroup
+    }
+  }).addTo(map);
+
+  map.on('draw:deleted', function(e) {
+      $(".ui-coordinates").css('display','none');
+  });
+
+  map.on('draw:created', function(e) {
+      var layer = e.layer;
+
+      var type = e.layerType;
+      var zoom = map.getZoom();
+      var coordinates = layer.getLatLng();
+      var latitude = coordinates.lat;
+      var longtitude = coordinates.lng;
+      if (type === 'circle') {
+        var radius = layer.getRadius().toFixed(2);
+      }
+      featureGroup.addLayer(layer);
+      $(".ui-coordinates").css('display','block');
+      document.getElementById("map_zoom").value = zoom;
+      document.getElementById("map_radius").value = radius;
+      document.getElementById("map_latitude").value = latitude;
+      document.getElementById("map_longtitude").value = longtitude;
+  });
+  <% end %>
+
+  ////
+});
+</script>
+<% provide(:title, 'Главная страница') %>
+<!DOCTYPE html>
+<body>
+  <% if signed_in? %>
+    <%= render 'maps/map_form', map: @map %>
+  <% end %>
+  <div id="map_new" class="maps"></div>
+</body>

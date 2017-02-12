@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  zoom: 1
+  user_id: 1
+  radius: MyString
+  float: MyString
+  latitude: 1.5
+  longtitude: 1.5
+
+two:
+  zoom: 1
+  user_id: 1
+  radius: MyString
+  float: MyString
+  latitude: 1.5
+  longtitude: 1.5

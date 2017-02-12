@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+<% comments.each do |comment| %>
+<article class="row">
+            <div class="col-md-2 col-sm-2 hidden-xs">
+              <figure class="thumbnail">
+                <%= link_to image_tag("avatar.jpg"),comment.user %>         
+	      </figure>
+            </div>
+            <div class="col-md-10 col-sm-10">
+              <div class="panel panel-default arrow left">
+                <div class="panel-body">
+                  <header class="text-left">
+                    <div class="comment-user"><%= link_to(comment.user.name,comment.user,class:"btn btn-link") %></div>
+                  </header>
+                  <div class="comment-post">
+                    <h3>
+                      <%= comment.content %>
+                    </h3>
+                  </div>
+		  <time class="comment-date">Posted <%= time_ago_in_words(comment.created_at) %> ago.</time>
+                  <% if current_user?(comment.user) %>
+                  	<p class="text-right"><%= link_to 'Edit', edit_comment_path(comment), class: "btn btn-primary" %></p>
+				  <% end %>
+                </div>
+              </div>
+            </div>
+          </article>
+<% end %>

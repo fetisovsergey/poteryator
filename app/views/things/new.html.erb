@@ -1,0 +1,48 @@
+<script>
+$(document).ready(function(){
+  var ready;
+  ready = function()
+  {
+  L.mapbox.accessToken = 'pk.eyJ1IjoiZmV0aXNvdnNlcmdleSIsImEiOiI0X09HSjZFIn0.aU0mwcW1UZIj5ZWVBFkRdQ';
+  var map = L.mapbox.map('map_new', 'mapbox.streets').setView(<%= @coordinates %>, 6);
+  map.addControl(L.mapbox.geocoderControl('mapbox.places',{autocomplete: true}));
+  
+ //map.touchZoom.disable();
+ 
+  var marker = L.marker([55.764213,37.59521],
+  {
+    icon: L.mapbox.marker.icon({'marker-color': '#cf0000','marker-size': 'large'}),
+    draggable: true
+  }).addTo(map);
+  
+  var coordinates = document.getElementById('coordinates');
+  marker.on('dragend', ondragend);
+  ondragend();
+  function ondragend() {
+    $(".ui-coordinates").css('display','block');
+    var m = marker.getLatLng();
+    coordinates.innerHTML = 'Широта: ' + m.lat + '<br />Долгота: ' + m.lng;
+  }
+  
+  //Remember position
+  $('#submit_btn').bind('click', function() {
+        var m = marker.getLatLng();
+        document.getElementById("map_latitude").value = m.lat;
+        document.getElementById("map_longtitude").value = m.lng;
+  });
+  };
+  $(document).ready(ready);
+});
+</script>
+<% provide(:title, 'Добавить объект') %>
+<!DOCTYPE html>
+<body>
+	<div id="map_new" class="maps"></div>
+	<pre id='coordinates' class='ui-coordinates'></pre>
+	<div id="add_label">
+		<h2>Добавить объект</h2>
+	  <%= render 'form', thing: @thing %>
+	</div>
+</body>
+
+<%= link_to 'Back', things_path %>

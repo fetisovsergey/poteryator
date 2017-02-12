@@ -1,0 +1,10 @@
+<div id="create_map" class='ui-coordinates'>
+    <%= form_for(map) do |f| %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.hidden_field :zoom, id: "map_zoom" %>
+      <%= f.hidden_field :radius, id: "map_radius" %>
+      <%= f.hidden_field :latitude, id: "map_latitude" %>
+      <%= f.hidden_field :longtitude, id: "map_longtitude" %>
+      <%= f.submit 'Создать карту', :id =>"submit_btn",:class => "btn btn-primary" %>
+    <% end %>
+  </div>

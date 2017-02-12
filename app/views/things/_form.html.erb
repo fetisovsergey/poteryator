@@ -1,0 +1,53 @@
+<script>
+$(document).ready(function(){
+
+  $("#rootSelect").change(function(){
+     var root_id = '#' + $("#rootSelect").val().toString();
+      $('.thing_type').css("display", "none");
+      $(root_id).css("display", "inline-block");
+  }).trigger('change');
+});
+</script>
+
+<%= form_for(thing) do |f| %>
+  <% if thing.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(thing.errors.count, "error") %> prohibited this thing from being saved:</h2>
+
+      <ul>
+      <% thing.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <h3>Тип:</h3> 
+    <%= f.select :root_type, options_for_select([['Одежда', 1],['Еда', 2],['Ребенок', 3]]),{}, :id =>'rootSelect' %>
+  </div>   
+  <div class="field">
+    <h3>Разновидность:</h3>
+    <div id="1" class="thing_type"><%= f.select(:thing_type, [['Джинсы', 1],['Футболка', 2],['Шляпа', 3]])%></div>
+    <div id="2" class="thing_type"><%= f.select(:thing_type, [['Бургер', 1],['Картошка', 2],['Кола', 3]])%></div>
+    <div id="3" class="thing_type"><%= f.select(:thing_type, [['Мальчик', 1],['Девочка', 2]])%></div>
+  </div>
+
+  <div class="field">
+    <h3>Статус объекта:</h3>
+    <%= f.select(:missing, [['Потерян', true],['Найден', false]])%>
+  </div>
+
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+  <%= f.hidden_field :latitude, id: "map_latitude" %>
+  <%= f.hidden_field :longtitude, id: "map_longtitude" %>
+  <div class="field">
+    <h3>Описание:</h3> 
+    <%= f.text_area :description, class: "text_area" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit :id =>"submit_btn",:class => "btn btn-primary" %>
+    <%= link_to 'Back', things_path,class: "btn btn-info" %>    
+  </div>
+<% end %>

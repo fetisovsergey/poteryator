@@ -1,0 +1,62 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ваши объекты</h1>
+
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Статус</th>
+        <th>Категория</th>
+        <th>Наименование</th>
+        <th>Описание</th>
+        <th>Адрес</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @things.each do |thing| %>
+        <% if thing.missing %>
+        <tr class="active">
+        <td>Потерян</td>
+        <% else %>
+        <tr class="success">
+        <td>Найден</td>
+        <% end %>
+        <% if thing.root_type == 1 %>
+          <td>Одежда</td>
+          <% if thing.thing_type == 1 %>
+          <td>Джинсы</td>
+          <% elsif thing.thing_type == 2 %>
+          <td>Футболка</td>
+          <% elsif thing.thing_type == 3 %>
+          <td>Шляпа</td>
+          <% end %>
+        <% elsif thing.root_type == 2 %>
+          <td>Еда</td>
+          <% if thing.thing_type == 1 %>
+          <td>Бургер</td>
+          <% elsif thing.thing_type == 2 %>
+          <td>Картошка</td>
+          <% elsif thing.thing_type == 3 %>
+          <td>Кола</td>
+          <% end %>
+        <% elsif thing.root_type == 3 %>
+          <td>Дети</td>
+          <% if thing.thing_type == 1 %>
+          <td>Мальчик</td>
+          <% elsif thing.thing_type == 2 %>
+          <td>Девочка</td>
+          <% end %>
+        <% end %>
+        <td><%= thing.description %></td>
+        <td><%= thing.address %></td>
+              <td><%= link_to 'Show', thing, class:"btn btn-primary" %></td>
+              <td><%= link_to 'Edit', edit_thing_path(thing), class:"btn btn-danger"%></td>
+              <td><%= link_to 'Destroy', thing, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-info" %></td>
+      </tr>
+      <% end %>
+      
+    </tbody>
+  </table>
+
+<%= link_to 'New Thing', new_thing_path(current_user), class:"btn btn-warning" %>
